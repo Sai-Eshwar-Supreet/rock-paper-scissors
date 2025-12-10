@@ -63,9 +63,9 @@ const playRound = (humanChoice, computerChoice) =>{
 
 let humanScore = 0;
 let computerScore = 0;
-const WIN_SCORE = 5;
+const TOTAL_ROUNDS = 5;
 
-while(humanScore < WIN_SCORE && computerScore < WIN_SCORE)
+for(let i = 0; i < TOTAL_ROUNDS; i++)
 {
     let humanChoice = getHumanChoice();
     let computerChoice = getComputerChoice();

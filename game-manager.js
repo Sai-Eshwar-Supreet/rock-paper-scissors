@@ -7,10 +7,8 @@ const WIN_SCORE = 5;
 
 //FUNCTIONS
 const displayScore = () => {
-    scoreboard.innerText = `
-    Human Score: ${humanScore}
-    Computer score: ${computerScore}
-        `;
+    scoreboard.innerText = `Human Score: ${humanScore}
+    Computer score: ${computerScore}`;
 }
 
 const displayResult = (result) => display.innerText = result;
@@ -29,7 +27,9 @@ const displayGameOver = () =>{
     displayResult(result);
 }
 
-const playRound = (humanChoice) =>{
+const playRound = (choiceID) =>{
+    if(!choiceID) return;
+    let humanChoice = CHOICES.indexOf(choiceID);
     let computerChoice = getComputerChoice();
 
     let availableChoices = CHOICES.length;
@@ -72,4 +72,4 @@ const scoreboard = document.querySelector("#scoreboard");
 
 displayScore();
 
-gameUI.addEventListener('click', (event) => playRound(CHOICES.indexOf(event.target.id)));
+gameUI.addEventListener('click', (event) => playRound(event.target.id));

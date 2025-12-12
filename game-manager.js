@@ -13,7 +13,7 @@ const displayScore = () => {
 
 const displayResult = (result) => display.innerText = result;
 
-const getComputerChoice = () => Math.floor(Math.random() * (CHOICES.length - 1));
+const getComputerChoice = () => Math.floor(Math.random() * CHOICES.length);
 
 const resetGame = () =>{
     humanScore = 0;

@@ -1,36 +1,36 @@
-const CHOICES = ["ROCK", "SCISSOR", "PAPER"];
+const CHOICES = ["rock", "scissors", "paper"];
 
-const getOptionsString = () =>{
-    let options = '';
 
-    for(let i = 0; i< CHOICES.length; i ++){
-        options += `\n${i+1}. ${CHOICES[i]}`;
-    }
+let humanScore = 0;
+let computerScore = 0;
+const WIN_SCORE = 5;
 
-    return options;
+//FUNCTIONS
+const displayScore = () => {
+    scoreboard.innerText = `
+    Human Score: ${humanScore}
+    Computer score: ${computerScore}
+        `;
 }
+
+const displayResult = (result) => display.innerText = result;
 
 const getComputerChoice = () => Math.floor(Math.random() * (CHOICES.length - 1));
 
-const getValidIndex = (num) => (num + CHOICES.length) % CHOICES.length;
+const resetGame = () =>{
+    humanScore = 0;
+    computerScore = 0;
+}
 
-const getHumanChoice = () =>{
+const checkGameOver = () => computerScore >= WIN_SCORE || humanScore >= WIN_SCORE;
 
-    let choice = prompt(`Choose an option (as number):
-        ${getOptionsString()}
-    Choice:`, 1);
+const displayGameOver = () =>{
+    let result = (computerScore == humanScore)? "Game ended in a tie!" : `Winner is : ${(computerScore > humanScore)? "COMPUTER" : "HUMAN"}!`;
+    displayResult(result);
+}
 
-    choice = parseInt(choice, 10);
-
-    if(isNaN(choice) || choice < 1 || choice > CHOICES.length){
-        alert(`Invalid choice! Defaulting to ${CHOICES[0]}`)
-        return 0;
-    }
-
-    return choice - 1;
-};
-
-const playRound = (humanChoice, computerChoice) =>{
+const playRound = (humanChoice) =>{
+    let computerChoice = getComputerChoice();
 
     let availableChoices = CHOICES.length;
 
@@ -43,35 +43,33 @@ const playRound = (humanChoice, computerChoice) =>{
     {
         computerScore += 0.5;
         humanScore += 0.5;
-        alert(`Tie! Both played ${CHOICES[humanChoice]}`);
+        displayResult(`Tie! Both played ${CHOICES[humanChoice]}`);
     }
     else if(result <= attackingRange) // distance to computer choice is within the attacking range of the human choice
     {
         humanScore++;
-        alert(`You win! ${CHOICES[humanChoice]} beats ${CHOICES[computerChoice]}`)
+        displayResult(`You win! ${CHOICES[humanChoice]} beats ${CHOICES[computerChoice]}`)
     }
     else{
         computerScore++;
-        alert(`You loose! ${CHOICES[computerChoice]} beats ${CHOICES[humanChoice]}`)
+        displayResult(`You loose! ${CHOICES[computerChoice]} beats ${CHOICES[humanChoice]}`)
     }
 
-    console.log(`
-    Human Score: ${humanScore}
-    Computer score: ${computerScore}
-        `);
+    displayScore();
+
+    if(checkGameOver())
+    {
+        displayGameOver();
+        resetGame();
+    }
 }
 
-let humanScore = 0;
-let computerScore = 0;
-const TOTAL_ROUNDS = 5;
+// DOM
 
-for(let i = 0; i < TOTAL_ROUNDS; i++)
-{
-    let humanChoice = getHumanChoice();
-    let computerChoice = getComputerChoice();
-    playRound(humanChoice, computerChoice);
-}
+const gameUI = document.querySelector('#game-ui');
+const display = document.querySelector("#display");
+const scoreboard = document.querySelector("#scoreboard");
 
-if(humanScore > computerScore) alert("Hurray! You win the tournament!");
-else if(computerScore > humanScore) alert("Computer has won the tournament!");
-else alert("Hmm! You have tied with the computer!");
+displayScore();
+
+gameUI.addEventListener('click', (event) => playRound(CHOICES.indexOf(event.target.id)));

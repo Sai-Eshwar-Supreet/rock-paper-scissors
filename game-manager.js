@@ -1,14 +1,16 @@
 const CHOICES = ["rock", "scissors", "paper"];
 
+const state = {
+    human: 0,
+    computer: 0,
+    winScore: 5
+};
 
-let humanScore = 0;
-let computerScore = 0;
-const WIN_SCORE = 5;
 
 //FUNCTIONS
 const displayScore = () => {
-    scoreboard.innerText = `Human Score: ${humanScore}
-    Computer score: ${computerScore}`;
+    scoreboard.innerText = `Human Score: ${state.human}
+    Computer score: ${state.computer}`;
 }
 
 const displayResult = (result) => display.innerText = result;
@@ -16,14 +18,14 @@ const displayResult = (result) => display.innerText = result;
 const getComputerChoice = () => Math.floor(Math.random() * CHOICES.length);
 
 const resetGame = () =>{
-    humanScore = 0;
-    computerScore = 0;
+    state.human = 0;
+    state.computer = 0;
 }
 
-const checkGameOver = () => computerScore >= WIN_SCORE || humanScore >= WIN_SCORE;
+const checkGameOver = () => state.computer >= state.winScore || state.human >= state.winScore;
 
 const displayGameOver = () =>{
-    let result = (computerScore == humanScore)? "Game ended in a tie!" : `Winner is : ${(computerScore > humanScore)? "COMPUTER" : "HUMAN"}!`;
+    let result = (state.computer == state.human)? "Game ended in a tie!" : `Winner is : ${(state.computer > state.human)? "COMPUTER" : "HUMAN"}!`;
     displayResult(result);
 }
 
@@ -41,17 +43,17 @@ const playRound = (choiceID) =>{
     
     if(result === 0) // the distance is zero => tie
     {
-        computerScore += 0.5;
-        humanScore += 0.5;
+        state.computer += 0.5;
+        state.human += 0.5;
         displayResult(`Tie! Both played ${CHOICES[humanChoice]}`);
     }
     else if(result <= attackingRange) // distance to computer choice is within the attacking range of the human choice
     {
-        humanScore++;
+        state.human++;
         displayResult(`You win! ${CHOICES[humanChoice]} beats ${CHOICES[computerChoice]}`)
     }
     else{
-        computerScore++;
+        state.computer++;
         displayResult(`You loose! ${CHOICES[computerChoice]} beats ${CHOICES[humanChoice]}`)
     }
 
@@ -72,4 +74,4 @@ const scoreboard = document.querySelector("#scoreboard");
 
 displayScore();
 
-gameUI.addEventListener('click', (event) => playRound(event.target.id));
+gameUI.addEventListener('click', (event) => playRound(event.target.dataset.choice));

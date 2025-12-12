@@ -1,0 +1,42 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body{
+    padding: 64px;
+}
+
+h1{
+    margin-bottom: 16px;
+    text-align: center;
+}
+
+#game-ui{
+    display: flex;
+    justify-content: center;
+    gap: 64px;
+    align-items: center;
+}
+
+#game-ui img{
+    width: 128px;
+    height: auto;
+}
+
+#display, #scoreboard{
+    padding: 16px;
+    margin: 16px 0px;
+    text-align: center;
+    border: 2px solid  black;
+}
+
+#display{
+    background-color: rgb(203, 238, 203);
+}
+
+#scoreboard{
+    width: 500px;
+    margin: auto;
+}
